@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SOP Library — Harpoon Can Line</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Add to Home Screen support (iOS Safari) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SOP Library">
+<style>
+:root {
+    --navy:      #204667;
+    --navy-dk:   #17324A;
+    --navy-tint: #E8ECEF;
+    --accent:    #9E1A41;
+    --accent-dk: #71122E;
+    --accent-bg: #F7ECEF;
+    --green:   #2e7d32;
+    --green-bg:#e8f5e9;
+    --g100:    #f8f9fa;
+    --g200:    #e9ecef;
+    --g400:    #ced4da;
+    --g600:    #6c757d;
+    --g800:    #343a40;
+    --red:     #dc3545;
+    --shadow:  0 2px 8px rgba(0,0,0,.08);
+    --r:       10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #eef0f4; color: var(--g800); padding-bottom: 40px; }
+
+/* HEADER */
+.hdr { background: var(--navy); color: white; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 10px rgba(0,0,0,.35); gap: 12px; }
+.hdr-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.back-btn { background: rgba(255,255,255,.12); border: none; color: white; font-size: 15px; font-weight: 700; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: none; -webkit-tap-highlight-color: transparent; flex-shrink: 0; }
+.back-btn.show { display: inline-block; }
+.hdr-text { min-width: 0; }
+.hdr-text h1 { font-size: 18px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hdr-text p  { font-size: 12px; opacity: .8; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hdr-badge  { background: var(--accent); color: white; font-weight: 900; font-size: 12px; padding: 6px 12px; border-radius: 20px; letter-spacing: .4px; white-space: nowrap; flex-shrink: 0; }
+
+/* LAYOUT */
+.container { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+/* SEARCH */
+.search-wrap { padding: 0 16px; max-width: 900px; margin: 14px auto 0; }
+.search-box { width: 100%; border: 1.5px solid var(--g400); border-radius: 10px; padding: 13px 16px; font-size: 16px; background: white; box-shadow: var(--shadow); -webkit-appearance: none; }
+.search-box:focus { outline: none; border-color: var(--navy); }
+
+/* LIBRARY GRID */
+.lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 16px; }
+.sop-card { background: white; border-radius: var(--r); box-shadow: var(--shadow); padding: 16px; display: flex; flex-direction: column; gap: 8px; cursor: pointer; border: 2px solid transparent; transition: transform .1s, border-color .1s; -webkit-tap-highlight-color: transparent; text-decoration: none; color: inherit; }
+.sop-card.active:active { transform: scale(.98); }
+.sop-card.active { border-color: var(--navy); }
+.sop-card.locked { cursor: not-allowed; opacity: .55; }
+.sop-code { font-size: 11px; font-weight: 800; letter-spacing: .5px; color: var(--navy); text-transform: uppercase; }
+.sop-card.locked .sop-code { color: var(--g600); }
+.sop-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+.sop-meta { font-size: 11px; color: var(--g600); margin-top: auto; padding-top: 6px; }
+.sop-status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 20px; width: fit-content; }
+.status-live { background: var(--green-bg); color: var(--green); }
+.status-pending { background: var(--g200); color: var(--g600); }
+
+/* EMPTY / ERROR STATE */
+.lib-msg { text-align: center; color: var(--g600); font-size: 13px; padding: 30px 16px; }
+
+/* FOOTER */
+.lib-footer { max-width: 900px; margin: 28px auto 0; padding: 20px 16px; text-align: center; }
+.lib-footer img { height: 34px; opacity: .85; margin-bottom: 8px; }
+.lib-footer .tag { font-size: 11px; color: var(--g600); letter-spacing: .3px; }
+.lib-footer .note { font-size: 11px; color: var(--g600); margin-top: 10px; font-style: italic; }
+
+/* VIEWS */
+.view { display: none; }
+.view.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-text">
+      <h1>SOP Library</h1>
+      <p>Harpoon Can Line · Barrel One Collective</p>
+    </div>
+  </div>
+  <div class="hdr-badge" id="hdrBadge">…</div>
+</div>
+
+<!-- ============ LIBRARY VIEW ============ -->
+<div id="libraryView" class="view show">
+  <div class="search-wrap">
+    <input class="search-box" id="searchBox" type="text" placeholder="Search SOPs by title or code…" oninput="filterLib()">
+  </div>
+  <div class="container">
+    <div class="lib-grid" id="libGrid"></div>
+  </div>
+  <div class="lib-footer">
+    <img src="logo.png" alt="Barrel One Collective">
+    <div class="tag">LEGACY + INNOVATION</div>
+    <div class="note">More SOPs land here as they're finalized in the September refresh.</div>
+  </div>
+</div>
+
+<script>
+const TOTAL_SOPS = 16; // bump only when the master SOP list itself grows/shrinks
+
+let sops = [];
+
+async function loadManifest() {
+  try {
+    const res = await fetch("manifest.json", { cache: "no-store" });
+    sops = await res.json();
+  } catch (e) {
+    sops = [];
+  }
+  renderLib();
+}
+
+function renderLib(filter) {
+  const grid = document.getElementById("libGrid");
+  grid.innerHTML = "";
+  const f = (filter || "").toLowerCase();
+
+  const liveCount = sops.length;
+  document.getElementById("hdrBadge").textContent = liveCount + " / " + TOTAL_SOPS + " LIVE";
+
+  const matchedLive = sops.filter(s =>
+    !f || s.code.toLowerCase().includes(f) || s.title.toLowerCase().includes(f)
+  );
+
+  matchedLive.forEach(s => {
+    const url = s.file + "?v=" + (s.version || 1);
+    const el = document.createElement("a");
+    el.className = "sop-card active";
+    el.href = url;
+    el.innerHTML = `
+      <div class="sop-status status-live">● Live</div>
+      <div class="sop-code">${s.code}</div>
+      <div class="sop-title">${s.title}</div>
+      <div class="sop-meta">Updated ${s.updated}</div>
+    `;
+    grid.appendChild(el);
+  });
+
+  // placeholder tiles for the remaining slots, only when not actively searching
+  if (!f) {
+    for (let i = sops.length + 1; i <= TOTAL_SOPS; i++) {
+      const el = document.createElement("div");
+      el.className = "sop-card locked";
+      el.innerHTML = `
+        <div class="sop-status status-pending">🔒 Pending</div>
+        <div class="sop-code">SOP ${String(i).padStart(2,"0")}</div>
+        <div class="sop-title">Pending — September update</div>
+        <div class="sop-meta">Not yet published</div>
+      `;
+      grid.appendChild(el);
+    }
+  }
+
+  if (f && matchedLive.length === 0) {
+    grid.innerHTML = `<div class="lib-msg">No published SOPs match "${filter}".</div>`;
+  }
+}
+function filterLib() { renderLib(document.getElementById("searchBox").value); }
+
+loadManifest();
+</script>
+
+</body>
+</html>
