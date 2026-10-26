@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SOP Library — Harpoon Can Line</title>
+<title>SOP Library — Harpoon Packaging</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <!-- Add to Home Screen support (iOS Safari) -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -64,6 +64,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .status-live { background: var(--green-bg); color: var(--green); }
 .status-pending { background: var(--g200); color: var(--g600); }
 
+/* LINE TABS */
+.tabs { display: flex; gap: 8px; max-width: 900px; margin: 12px auto 0; padding: 0 16px; }
+.tab { flex: 1; border: 1.5px solid var(--g400); background: white; color: var(--g800); font-size: 15px; font-weight: 700; padding: 11px 8px; border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tab.on { background: var(--navy); border-color: var(--navy); color: white; }
+
+/* SECTION HEADERS */
+.sec-hdr { display: flex; align-items: baseline; justify-content: space-between; margin-top: 22px; padding-bottom: 6px; border-bottom: 2px solid var(--navy); }
+.sec-hdr h2 { font-size: 17px; color: var(--navy); }
+.sec-hdr span { font-size: 12px; color: var(--g600); font-weight: 700; }
+.sec-hdr + .lib-grid { margin-top: 12px; }
+
 /* EMPTY / ERROR STATE */
 .lib-msg { text-align: center; color: var(--g600); font-size: 13px; padding: 30px 16px; }
 
@@ -84,7 +95,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
   <div class="hdr-left">
     <div class="hdr-text">
       <h1>SOP Library</h1>
-      <p>Harpoon Can Line · Barrel One Collective</p>
+      <p>Harpoon Packaging · Can Line &amp; Racker · Barrel One Collective</p>
     </div>
   </div>
   <div class="hdr-badge" id="hdrBadge">…</div>
@@ -92,23 +103,41 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
 <!-- ============ LIBRARY VIEW ============ -->
 <div id="libraryView" class="view show">
+  <div class="tabs" id="tabs">
+    <button class="tab" data-line="all" onclick="setLine('all')">All</button>
+    <button class="tab" data-line="Can Line" onclick="setLine('Can Line')">Can Line</button>
+    <button class="tab" data-line="Racker" onclick="setLine('Racker')">Racker</button>
+  </div>
   <div class="search-wrap">
     <input class="search-box" id="searchBox" type="text" placeholder="Search SOPs by title or code…" oninput="filterLib()">
   </div>
   <div class="container">
-    <div class="lib-grid" id="libGrid"></div>
+    <div id="libGrid"></div>
   </div>
   <div class="lib-footer">
     <img src="logo.png" alt="Barrel One Collective">
     <div class="tag">LEGACY + INNOVATION</div>
-    <div class="note">More SOPs land here as they're finalized in the September refresh.</div>
+    <div class="note">Gray tiles are SOPs still being written. They go live here as soon as they're finished.</div>
   </div>
 </div>
 
 <script>
-const TOTAL_SOPS = 16; // bump only when the master SOP list itself grows/shrinks
-
+// The SOP list lives in manifest.json (one entry per SOP: live or pending).
+// To add or update an SOP: upload its PDF, then edit manifest.json. No code changes needed.
+const LINES = ["Can Line", "Racker"];
 let sops = [];
+let line = "all";
+
+function codeKey(c) { return c.split(".").slice(2).map(Number); }
+function byCode(a, b) {
+  const x = codeKey(a.code), y = codeKey(b.code);
+  for (let i = 0; i < Math.max(x.length, y.length); i++) {
+    const d = (x[i] || 0) - (y[i] || 0);
+    if (d) return d;
+  }
+  return 0;
+}
+function esc(t) { const d = document.createElement("div"); d.textContent = t == null ? "" : String(t); return d.innerHTML; }
 
 async function loadManifest() {
   try {
@@ -117,52 +146,65 @@ async function loadManifest() {
   } catch (e) {
     sops = [];
   }
+  const p = new URLSearchParams(location.search).get("line");
+  if (p && p.toLowerCase().startsWith("rack")) line = "Racker";
+  else if (p && p.toLowerCase().startsWith("can")) line = "Can Line";
   renderLib();
 }
 
+function setLine(l) {
+  line = l;
+  try { history.replaceState(null, "", l === "all" ? location.pathname : "?line=" + (l === "Racker" ? "racker" : "canline")); } catch (e) {}
+  renderLib(document.getElementById("searchBox").value);
+}
+
+function card(s) {
+  const live = s.status !== "pending";
+  const el = document.createElement(live ? "a" : "div");
+  el.className = "sop-card " + (live ? "active" : "locked");
+  if (live) el.href = s.file + "?v=" + (s.version || 1);
+  el.innerHTML = live
+    ? `<div class="sop-status status-live">● Live</div>
+       <div class="sop-code">${esc(s.code)}</div>
+       <div class="sop-title">${esc(s.title)}</div>
+       <div class="sop-meta">Updated ${esc(s.updated)}</div>`
+    : `<div class="sop-status status-pending">🔒 Pending</div>
+       <div class="sop-code">${esc(s.code)}</div>
+       <div class="sop-title">${esc(s.title)}</div>
+       <div class="sop-meta">Not yet published</div>`;
+  return el;
+}
+
 function renderLib(filter) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.dataset.line === line));
   const grid = document.getElementById("libGrid");
   grid.innerHTML = "";
-  const f = (filter || "").toLowerCase();
+  const f = (filter || "").toLowerCase().trim();
+  const inLine = sops.filter(s => line === "all" || s.line === line);
+  const live = inLine.filter(s => s.status !== "pending").length;
+  document.getElementById("hdrBadge").textContent = live + " / " + inLine.length + " LIVE";
 
-  const liveCount = sops.length;
-  document.getElementById("hdrBadge").textContent = liveCount + " / " + TOTAL_SOPS + " LIVE";
-
-  const matchedLive = sops.filter(s =>
-    !f || s.code.toLowerCase().includes(f) || s.title.toLowerCase().includes(f)
-  );
-
-  matchedLive.forEach(s => {
-    const url = s.file + "?v=" + (s.version || 1);
-    const el = document.createElement("a");
-    el.className = "sop-card active";
-    el.href = url;
-    el.innerHTML = `
-      <div class="sop-status status-live">● Live</div>
-      <div class="sop-code">${s.code}</div>
-      <div class="sop-title">${s.title}</div>
-      <div class="sop-meta">Updated ${s.updated}</div>
-    `;
-    grid.appendChild(el);
+  let shown = 0;
+  LINES.forEach(L => {
+    if (line !== "all" && line !== L) return;
+    const list = sops.filter(s => s.line === L)
+      .filter(s => !f ? true : (s.status !== "pending" && (s.code.toLowerCase().includes(f) || s.title.toLowerCase().includes(f))))
+      .sort(byCode);
+    if (!list.length) return;
+    const all = sops.filter(s => s.line === L);
+    const hdr = document.createElement("div");
+    hdr.className = "sec-hdr";
+    hdr.innerHTML = `<h2>${L}</h2><span>${all.filter(s => s.status !== "pending").length} live · ${all.filter(s => s.status === "pending").length} pending</span>`;
+    const g = document.createElement("div");
+    g.className = "lib-grid";
+    list.forEach(s => g.appendChild(card(s)));
+    grid.appendChild(hdr); grid.appendChild(g);
+    shown += list.length;
   });
 
-  // placeholder tiles for the remaining slots, only when not actively searching
-  if (!f) {
-    for (let i = sops.length + 1; i <= TOTAL_SOPS; i++) {
-      const el = document.createElement("div");
-      el.className = "sop-card locked";
-      el.innerHTML = `
-        <div class="sop-status status-pending">🔒 Pending</div>
-        <div class="sop-code">SOP ${String(i).padStart(2,"0")}</div>
-        <div class="sop-title">Pending — September update</div>
-        <div class="sop-meta">Not yet published</div>
-      `;
-      grid.appendChild(el);
-    }
-  }
-
-  if (f && matchedLive.length === 0) {
-    grid.innerHTML = `<div class="lib-msg">No published SOPs match "${filter}".</div>`;
+  if (!shown) {
+    grid.innerHTML = f ? `<div class="lib-msg">No published SOPs match "${esc(filter)}".</div>`
+                       : `<div class="lib-msg">No SOPs found.</div>`;
   }
 }
 function filterLib() { renderLib(document.getElementById("searchBox").value); }

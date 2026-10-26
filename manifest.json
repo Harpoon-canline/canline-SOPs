@@ -1,9 +1,326 @@
 [
   {
+    "code": "BOS.CL.001",
+    "title": "Depalletizer",
+    "line": "Can Line",
+    "file": "BOS-CL-001.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.002",
+    "title": "TRIpack Sleever",
+    "line": "Can Line",
+    "file": "BOS-CL-002.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.003",
+    "title": "Air Rinser",
+    "line": "Can Line",
+    "file": "BOS-CL-003.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.004",
+    "title": "Can Coder Operations",
+    "line": "Can Line",
+    "file": "BOS-CL-004.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.005",
+    "title": "CFT Filler",
+    "line": "Can Line",
+    "file": "BOS-CL-005.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.006",
+    "title": "Warmer",
+    "line": "Can Line",
+    "file": "BOS-CL-006.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.007",
+    "title": "Filtec",
+    "line": "Can Line",
+    "file": "BOS-CL-007.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.008.1",
+    "title": "12oz 4pk Cartoner",
+    "line": "Can Line",
+    "file": "BOS-CL-008-1.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.008.2",
+    "title": "12oz 6pk Cartoner",
+    "line": "Can Line",
+    "file": "BOS-CL-008-2.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.008.3",
+    "title": "12oz 12pk Cartoner",
+    "line": "Can Line",
+    "file": "BOS-CL-008-3.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.008.4",
+    "title": "12oz 15pk Cartoner",
+    "line": "Can Line",
+    "file": "BOS-CL-008-4.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.008.5",
+    "title": "19.2oz 12pk Cartoner",
+    "line": "Can Line",
+    "file": "BOS-CL-008-5.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.009",
+    "title": "Paktech CCA120",
+    "line": "Can Line",
+    "file": "BOS-CL-009.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.010",
+    "title": "Case Coder Operations",
+    "line": "Can Line",
+    "file": "BOS-CL-010.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.011.1",
+    "title": "Wrap Tray Packer",
+    "line": "Can Line",
+    "file": "BOS-CL-011-1.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.011.2",
+    "title": "Paktech Tray Packer",
+    "line": "Can Line",
+    "file": "BOS-CL-011-2.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.011.3",
+    "title": "Passthrough Tray Packer",
+    "line": "Can Line",
+    "file": "BOS-CL-011-3.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.011.4",
+    "title": "Loose Tray Packer",
+    "line": "Can Line",
+    "file": "BOS-CL-011-4.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.012",
+    "title": "Check Weigher",
+    "line": "Can Line",
+    "file": "BOS-CL-012.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.013",
+    "title": "Palletizer",
+    "line": "Can Line",
+    "file": "BOS-CL-013.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.014",
+    "title": "Pending — information needed",
+    "line": "Can Line",
+    "status": "pending"
+  },
+  {
+    "code": "BOS.CL.015",
+    "title": "Summer Foaming",
+    "line": "Can Line",
+    "file": "BOS-CL-015.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
     "code": "BOS.CL.016",
     "title": "Downstairs Can Line Tablet Instruction",
     "file": "BOS-CL-016.pdf",
     "version": 1,
-    "updated": "2026-08-25"
+    "updated": "2026-08-25",
+    "line": "Can Line",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.017",
+    "title": "Shutting Off Glycol",
+    "line": "Can Line",
+    "file": "BOS-CL-017.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.CL.018",
+    "title": "Upstairs Can Line Tablet Instruction (video)",
+    "line": "Can Line",
+    "status": "pending"
+  },
+  {
+    "code": "BOS.RL.001",
+    "title": "Keg Loading-Unloading",
+    "line": "Racker",
+    "file": "BOS-RL-001.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.002",
+    "title": "EW Operations",
+    "line": "Racker",
+    "file": "BOS-RL-002.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.003",
+    "title": "MM Operations and SIP-CIP",
+    "line": "Racker",
+    "file": "BOS-RL-003.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.005",
+    "title": "Stretch Wrapper Operations",
+    "line": "Racker",
+    "file": "BOS-RL-005.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.006",
+    "title": "Dump Keg Operations",
+    "line": "Racker",
+    "file": "BOS-RL-006.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.007",
+    "title": "Brink Cleaning Operations",
+    "line": "Racker",
+    "file": "BOS-RL-007.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.007.1",
+    "title": "Bulk Tank Cleaning Operations",
+    "line": "Racker",
+    "file": "BOS-RL-007-1.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.008",
+    "title": "Keg Rebuilding",
+    "line": "Racker",
+    "file": "BOS-RL-008.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.009",
+    "title": "Nitrogen",
+    "line": "Racker",
+    "file": "BOS-RL-009.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.009.1",
+    "title": "Equipment for Racker Nitrogen Setup and Testing",
+    "line": "Racker",
+    "file": "BOS-RL-009-1.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.010",
+    "title": "Shutting Off Glycol",
+    "line": "Racker",
+    "file": "BOS-RL-010.pdf",
+    "version": 1,
+    "updated": "2026-10-26",
+    "status": "live"
+  },
+  {
+    "code": "BOS.RL.011",
+    "title": "Racker Tablet Instruction (video)",
+    "line": "Racker",
+    "status": "pending"
   }
 ]
