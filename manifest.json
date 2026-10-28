@@ -214,9 +214,12 @@
   },
   {
     "code": "BOS.CL.018",
-    "title": "Upstairs Can Line Tablet Instruction (video)",
+    "title": "Canline Upstairs Tablet SOP (video)",
     "line": "Can Line",
-    "status": "pending"
+    "status": "tablet",
+    "note": "Video saved on the Upstairs Can Line tablet. Open the Files app and search “Canline Upstairs Tablet SOP”.",
+    "updated": "2026-10-28",
+    "sharepoint": "SOPDocumentation-Operations > Shared Documents > Boston Packaging SOP Documentation > Video SOP"
   },
   {
     "code": "BOS.RL.001",
