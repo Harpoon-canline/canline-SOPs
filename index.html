@@ -63,6 +63,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .sop-status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 20px; width: fit-content; }
 .status-live { background: var(--green-bg); color: var(--green); }
 .status-pending { background: var(--g200); color: var(--g600); }
+.status-tablet { background: #E3EEF9; color: #1F4E79; }
+.sop-card.memo { cursor: default; border-color: #1F4E79; }
 
 /* LINE TABS */
 .tabs { display: flex; gap: 8px; max-width: 900px; margin: 12px auto 0; padding: 0 16px; }
@@ -160,10 +162,17 @@ function setLine(l) {
 
 function card(s) {
   const live = s.status !== "pending";
-  const el = document.createElement(live ? "a" : "div");
-  el.className = "sop-card " + (live ? "active" : "locked");
-  if (live) el.href = s.file + "?v=" + (s.version || 1);
-  el.innerHTML = live
+  // status "tablet": the SOP is a file saved on the tablet itself (e.g. a video), so the tile is a memo, not a link
+  const onTablet = s.status === "tablet";
+  const el = document.createElement(live && !onTablet ? "a" : "div");
+  el.className = "sop-card " + (onTablet ? "memo" : live ? "active" : "locked");
+  if (live && !onTablet) el.href = s.file + "?v=" + (s.version || 1);
+  el.innerHTML = onTablet
+    ? `<div class="sop-status status-tablet">▶ On this tablet</div>
+       <div class="sop-code">${esc(s.code)}</div>
+       <div class="sop-title">${esc(s.title)}</div>
+       <div class="sop-meta">${esc(s.note)}</div>`
+    : live
     ? `<div class="sop-status status-live">● Live</div>
        <div class="sop-code">${esc(s.code)}</div>
        <div class="sop-title">${esc(s.title)}</div>
